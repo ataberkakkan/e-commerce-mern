@@ -11,12 +11,6 @@ const PaymentScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddres } = cart;
 
-  useEffect(() => {
-    if (!shippingAddres) {
-      navigate("/shipping");
-    }
-  }, [shippingAddres, navigate]);
-
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
   const dispatch = useDispatch();
