@@ -38,8 +38,8 @@ const PlaceOrderScreen = () => {
 
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
-    } catch (error) {
-      toast.error(error);
+    } catch (err) {
+      toast.error("Something went wrong");
     }
   };
 
@@ -130,7 +130,9 @@ const PlaceOrderScreen = () => {
               </ListGroup.Item>
 
               <ListGroup.Item>
-                {error && <Message variant="danger">{error.message}</Message>}
+                {error && (
+                  <Message variant="danger">{error.data.message}</Message>
+                )}
               </ListGroup.Item>
 
               <ListGroup.Item>

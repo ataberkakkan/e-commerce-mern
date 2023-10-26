@@ -12,12 +12,12 @@ const addOrderItems = asyncHandler(async (req, res) => {
     totalPrice,
   } = req.body;
 
-  if (orderItems && orderItems.lenght === 0) {
+  if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("No order items");
   } else {
     const order = new Order({
-      orderItems: orderItems.map((x) => ({
+      orderItems: orderItems?.map((x) => ({
         ...x,
         product: x._id,
         _id: undefined,
@@ -31,7 +31,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
       totalPrice,
     });
 
-    const createdOrder = await order.Save();
+    const createdOrder = await order.save();
 
     res.status(201).json(createdOrder);
   }
