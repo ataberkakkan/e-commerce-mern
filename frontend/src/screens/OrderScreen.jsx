@@ -1,19 +1,18 @@
 import { Link, useParams } from "react-router-dom";
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Card,
-} from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Button, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetOrderDetailsQuery } from "../slices/ordersApiSlice";
+import {
+  useGetOrderDetailsQuery,
+  useDeliverOrderMutation,
+} from "../slices/ordersApiSlice";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const {
     data: order,
@@ -21,6 +20,19 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
+
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order marked as delivered");
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
+  };
 
   return isLoading ? (
     <Loader />
@@ -116,8 +128,19 @@ const OrderScreen = () => {
                   <Col>{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* Pay Order Placeholder */}
-              {/* Mark As Delivered Placeholder */}
+              {loadingDeliver && <Loader />}
+
+              {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button
+                    type="button"
+                    className="btn btn-block"
+                    onClick={deliverOrderHandler}
+                  >
+                    Mark as delivered
+                  </Button>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
