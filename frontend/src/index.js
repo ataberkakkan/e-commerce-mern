@@ -12,6 +12,8 @@ import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+//SCREENS
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
@@ -26,6 +28,9 @@ import OrderListScreen from "./screens/Admin/OrderListScreen";
 import ProductListScreen from "./screens/Admin/ProductListScreen";
 import ProductEditScreen from "./screens/Admin/ProductEditScreen";
 import UserListScreen from "./screens/Admin/UserListScreen";
+import UserEditScreen from "./screens/Admin/UserEditScreen";
+
+//PRIVATE ROUTES
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 
@@ -49,6 +54,7 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListScreen />}></Route>
         <Route path="/admin/userlist" element={<UserListScreen />}></Route>
+        <Route path="/admin/user/:id/edit" element={<UserEditScreen />}></Route>
         <Route
           path="/admin/productlist"
           element={<ProductListScreen />}
